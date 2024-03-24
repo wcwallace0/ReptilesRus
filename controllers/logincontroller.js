@@ -2,7 +2,6 @@ const userModel = require('../models/userModel');
 
 async function login(req, res) {
     const { username, password } = req.body;
-
     try {
         const user = await userModel.getUserByUsernameAndPassword(username, password);
         
@@ -20,6 +19,22 @@ async function login(req, res) {
     }
 }
 
+
+async function createUser(req, res){
+    const { username, email, password } = req.body;
+    console.log('here')
+
+    try {
+        // Insert user information into the database
+        await userModel.createUser(username, email, password);
+        res.send('User created successfully');
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 module.exports = {
-    login
+    login,
+    createUser
 };

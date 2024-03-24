@@ -9,6 +9,27 @@ async function getUserByUsernameAndPassword(username, password) {
     }
 }
 
+
+async function createUser(username, email, password) {
+    try {
+        const connection = await pool.getConnection();
+        const sql = 'INSERT INTO users (username, password) VALUES (?, ?)';
+        const values = [username, password];
+        
+        // Execute the query
+        const [rows, fields] = await connection.execute(sql, values);
+        
+        // Release the connection
+        connection.release();
+
+        return rows;
+    } catch (error) {
+        console.error('Error creating user:', error);
+        throw error;
+    }
+}
+
 module.exports = {
-    getUserByUsernameAndPassword
+    getUserByUsernameAndPassword,
+    createUser
 };
