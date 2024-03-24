@@ -5,4 +5,7 @@ router.get('/cart', (req, res) => {
     res.render('cart', {});
 });
 
+router.get('/checkout', (req, res) => {
+    res.render('checkout');
+});
 module.exports = router;
