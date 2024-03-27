@@ -22,8 +22,6 @@ async function login(req, res) {
 
 async function createUser(req, res){
     const { username, email, password } = req.body;
-    console.log('here')
-
     try {
         // Insert user information into the database
         await userModel.createUser(username, email, password);
