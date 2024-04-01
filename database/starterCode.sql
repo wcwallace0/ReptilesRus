@@ -37,7 +37,7 @@ create table customer (
     CustZip char(5)
 );
 
-insert into customer (CustomerID, passwd, PaymentInfo) values('ddokupil@trinity.edu', 'pass', 0);
+insert into customer (CustomerID, passwd, PaymentInfo) values ('ddokupil@trinity.edu', 'pass', 0);
 
 
 create table product (
@@ -87,3 +87,33 @@ create table admin (
 
 insert into admin (adminPhone, adminEmail, adminPassword) values ('123-456-7890', 'admin', 'test');
 
+create table orders (
+    orderID serial primary key,
+    orderTime char(5) not null,
+    orderDate char(10) not null,
+    orderAmount float not null
+);
+
+create table orderProduct (
+    orderID bigint unsigned not null,
+    productID bigint unsigned not null,
+    primary key (OrderID, ProductID),
+    foreign key (orderID) references orders(orderID), 
+    foreign key (productID) references product(productID)
+);
+
+create table CustomerOrder (
+    CustomerID varchar(150) not null,
+    OrderID bigint unsigned not null,
+    foreign key (CustomerID) references customer(CustomerID), 
+    foreign key (orderID) references orders(orderID),
+    primary key (CustomerID, orderID)
+);
+
+create table productAdmin (
+    adminID bigint unsigned not null,
+    productID bigint unsigned not null,
+    primary key (adminID, productID),
+    foreign key (adminID) references admin(adminID),
+    foreign key (productID) references product(productID)
+);
