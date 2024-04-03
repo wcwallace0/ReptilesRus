@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const cookieSession = require('cookie-session');
 
 async function login(req, res) {
     const { username, password } = req.body;
@@ -7,6 +8,7 @@ async function login(req, res) {
         
         if (user) {
             // Successful login, redirect to a dashboard or profile page
+            req.session = {name: 'session', secret: username, maxAge: 10 * 60 * 1000, secure: false};
             res.redirect('/');
         } else {
             // Username or password is incorrect, redirect back to the login page
