@@ -22,5 +22,10 @@ router.get('/login', (req, res) => {
 
 router.post('/login', login);
 
+router.get('/logout', (req, res) => {
+    req.session = null;
+    res.send("You've been logged out. <a href=login>Log in again</a>");
+});
+
 router.post('/submit', createUser);
 module.exports = router;
