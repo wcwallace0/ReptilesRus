@@ -1,27 +1,6 @@
--- Make sure this data is in MySQL
+CREATE DATABASE pets;
 
---helpful stuff:
-
---/usr/local/mysql/bin/mysql -u root -p
-
--- const mysql = require('mysql2');
--- require('dotenv').config();
-
--- const connection = mysql.createConnection({
--- 	host : 'localhost',
--- 	user : 'root',
--- 	password : '@Chi3v3r$',
--- 	database : 'pets'
--- })
-
--- connection.connect((err => {
---     if(err) throw err;
---     console.log(`MySQL Connected`);
--- }));
-
--- exports.db_connection = connection
-
---actual code:
+USE pets;
 
 create table customer (
     CustomerID varchar(150) primary key, # username
