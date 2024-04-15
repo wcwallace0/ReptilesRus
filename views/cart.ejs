@@ -7,8 +7,16 @@
 </head>
 
 <body>
-    cart page here
-    <a href= "/checkout"><button>Checkout</button></a>
+    <% cart.forEach(i => { %>
+        <div>
+            <p><%=i.ProdName%></p>
+            <ul>
+                <li><%=i.quantity%></li>
+                <li><%=i.ProdPrice%></li>
+            </ul>
+        </div>
+    <% }) %>
+
 </body>
 
 </html>
