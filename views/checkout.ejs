@@ -18,16 +18,17 @@
 <br><br><br>
 <% try { %>
 <% cart.forEach(i => { %>
+    <%console.log(i)%>
     <div class="productInfo">
         <span><%=i.ProdName%></span>
         <button> - </button>
         <span><%i.quantity%></span>
+        <button> + </button>
         <span><%i.ProdPrice%></span>
         <button>Remove</button>
     </div>
 <% }) %>
 <% } catch (error) { %>
-    <% console.log(error) %>
     <div>There are no items in your cart</div>
     <% } %>
 

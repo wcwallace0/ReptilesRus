@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieSession = require('cookie-session');
 const router = express.Router();
-const {getUserCart} = require('../controllers/cartController');
+const {getUserCart, checkout} = require('../controllers/cartController');
 
 router.use(cookieSession({
     name: 'session',
@@ -13,8 +13,6 @@ router.use(cookieSession({
 
 router.get('/cart', getUserCart);
 
-router.get('/checkout', (req, res) => {
-    res.render('checkout');
-});
+router.get('/checkout', checkout);
 
 module.exports = router;

@@ -29,16 +29,15 @@ async function getUserCart(req, res) {
 
 async function checkout(req, res){
     const session = req.body.session;
-    if (session.isPopulated){
-        const cart = await cartModel.getCart(session['secret']);
-        console.log(cart);
-        res.render('checkout', {cart});
-    }
     try {
-
+        if (session !== undefined && session.isPopulated){
+            const cart = await cartModel.getCart(session['secret']);
+            console.log(cart);
+            res.render('checkout', {cart});
+        }
     } catch(error){
-        console.error('Error querying database', error);
-        res.status(500).send('Internal Server Error');
+        console.log(error);
+        res.render('checkout', {});
     }
 }
 
