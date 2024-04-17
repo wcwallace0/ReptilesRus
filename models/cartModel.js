@@ -7,7 +7,7 @@ async function getCart(username){
         const values = [username];
         // return rows.length > 0 ? rows[0] : null;
 
-        const [rows, fields] = await connection.execute(sql, values);
+        const [rows, _] = await connection.execute(sql, values);
 
         connection.release();
 

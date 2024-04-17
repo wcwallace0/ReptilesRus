@@ -17,7 +17,7 @@ async function createUser(username, email, password) {
         const values = [username, password];
         
         // Execute the query
-        const [rows, fields] = await connection.execute(sql, values);
+        const [rows, _] = await connection.execute(sql, values);
         
         // Release the connection
         connection.release();
