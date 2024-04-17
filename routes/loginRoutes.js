@@ -11,8 +11,6 @@ router.use(cookieSession({
 }));
 
 router.get('/login', (req, res) => {
-    console.log(req.session);
-    console.log(req.session.isPopulated);
     if (req.session.isPopulated){
         res.send("You're already logged in <a href=logout>Logout</a>");
     }else{

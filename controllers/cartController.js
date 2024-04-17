@@ -9,12 +9,14 @@ const cartModel = require('../models/cartModel');
 // }));
 
 async function getUserCart(req, res) {
-   cart = await cartModel.getCart('ddokupil@trinity.edu');
+    if(!req.session.isPopulated){
+        res.redirect('/login')
+        return
+}
+   cart = await cartModel.getCart(req.session.secret);
     try {
         if (cart) {
             // Successful login, redirect to a dashboard or profile page
-            console.log("cart controller true");
-            console.log(cart);
             res.render('cart', {cart});
         } else {
             // Username or password is incorrect, redirect back to the login page
@@ -31,7 +33,6 @@ async function checkout(req, res){
     const session = req.body.session;
     if (session.isPopulated){
         const cart = await cartModel.getCart(session['secret']);
-        console.log(cart);
         res.render('checkout', {cart});
     }
     try {
