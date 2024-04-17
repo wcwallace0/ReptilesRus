@@ -10,8 +10,6 @@ async function getCart(username){
         const [rows, _] = await connection.execute(sql, values);
 
         connection.release();
-
-        console.log('cart: ', rows);
         return rows;
         // const connection = await pool.getConnection();
         // const sql = 'INSERT INTO customer (customerID, passwd, paymentinfo) VALUES (?, ?, 0)';
