@@ -6,7 +6,6 @@ async function getProducts(){
         const [rows, _] = await pool.query('SELECT * FROM product WHERE ProdQuantity > 0');
 
         // Return the retrieved products
-        console.log(rows)
         return rows;
     } catch (error) {
         // Handle errors
