@@ -3,7 +3,7 @@ const pool = require('../database/DB');
 async function getProducts(){
     try {
         // Query to retrieve all products
-        const [rows, _] = await pool.query('SELECT * FROM product');
+        const [rows, _] = await pool.query('SELECT * FROM product WHERE ProdQuantity > 0');
 
         // Return the retrieved products
         console.log(rows)
