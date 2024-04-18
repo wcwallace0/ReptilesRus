@@ -17,20 +17,34 @@ async function getCart(username){
     }
 }
 
-async function addToCart(customer,id){
-    try{
+async function addToCart(customer, id) {
+    try {
         const connection = await pool.getConnection();
-        const sql = 'INSERT INTO cart (customerID, ProductID, quantity) VALUES (?, ?, 1)'
-        const values = [customer,id]
 
-        const [rows, _] = await connection.execute(sql, values);
+        // Check if the product already exists in the user's cart
+        const existingCartItem = await connection.execute(
+            'SELECT * FROM cart WHERE customerID = ? AND ProductID = ?',
+            [customer, id]
+        );
+
+        if (existingCartItem.length > 0) {
+            // If the product exists, update the quantity by incrementing it
+            await connection.execute(
+                'UPDATE cart SET quantity = quantity + 1 WHERE customerID = ? AND ProductID = ?',
+                [customer, id]
+            );
+        } else {
+            // If the product doesn't exist, insert a new row into the cart table with a quantity of 1
+            await connection.execute(
+                'INSERT INTO cart (customerID, ProductID, quantity) VALUES (?, ?, 1)',
+                [customer, id]
+            );
+        }
         
         // Release the connection
         connection.release();
-    }
-
-    catch(error){
-        console.error('Error creating user:', error);
+    } catch (error) {
+        console.error('Error adding product to cart:', error);
         throw error;
     }
 }

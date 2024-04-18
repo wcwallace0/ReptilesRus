@@ -45,7 +45,6 @@ async function checkout(req, res){
 
 async function addToCart(req,res){
     if(!req.session.isPopulated){
-        res.redirect('/login')
         return
     }
     const {productId} = req.body
