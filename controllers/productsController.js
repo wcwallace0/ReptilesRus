@@ -3,7 +3,7 @@ const productModel = require('../models/productModel')
 async function loadProducts(req, res){
     try {
         const products = await productModel.getProducts();
-        res.render('productListing', { products })
+        res.render('productListing', { products})
     } catch (error) {
         // Handle database query errors
         console.error('Error querying database:', error);
@@ -29,5 +29,5 @@ async function productDetail(req,res){
 
 module.exports = {
     loadProducts,
-    productDetail
+    productDetail,
 }

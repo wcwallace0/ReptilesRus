@@ -43,6 +43,23 @@ async function checkout(req, res){
     }
 }
 
+async function addToCart(req,res){
+    if(!req.session.isPopulated){
+        res.redirect('/login')
+        return
+    }
+    const {productId} = req.body
+    const {secret} = req.session
+    try{
+        await cartModel.addToCart(secret,productId)
+    }catch (error){
+        console.error('Error querying database:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 module.exports = {
-    getUserCart, checkout
+    getUserCart,
+    checkout,
+    addToCart
 };

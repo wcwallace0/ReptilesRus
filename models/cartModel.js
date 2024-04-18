@@ -11,17 +11,30 @@ async function getCart(username){
 
         connection.release();
         return rows;
-        // const connection = await pool.getConnection();
-        // const sql = 'INSERT INTO customer (customerID, passwd, paymentinfo) VALUES (?, ?, 0)';
-        // const values = [username, password];
-        
-        // // Execute the query
-        // const [rows, fields] = await connection.execute(sql, values);
+;
     } catch (error) {
         throw error;
     }
 }
 
+async function addToCart(customer,id){
+    try{
+        const connection = await pool.getConnection();
+        const sql = 'INSERT INTO cart (customerID, ProductID, quantity) VALUES (?, ?, 1)'
+        const values = [customer,id]
+
+        const [rows, _] = await connection.execute(sql, values);
+        
+        // Release the connection
+        connection.release();
+    }
+
+    catch(error){
+        console.error('Error creating user:', error);
+        throw error;
+    }
+}
 module.exports = {
-    getCart
+    getCart,
+    addToCart
 };

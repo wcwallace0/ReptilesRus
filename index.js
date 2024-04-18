@@ -8,6 +8,7 @@ app.set("view engine", "ejs");
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Import routes
 const indexRoutes = require('./routes/indexRoutes');
