@@ -45,6 +45,7 @@ async function checkout(req, res){
 
 async function addToCart(req,res){
     if(!req.session.isPopulated){
+        res.status(201).send("Not logged in")
         return
     }
     const {productId} = req.body

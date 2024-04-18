@@ -26,8 +26,7 @@ async function addToCart(customer, id) {
             'SELECT * FROM cart WHERE customerID = ? AND ProductID = ?',
             [customer, id]
         );
-
-        if (existingCartItem.length > 0) {
+        if (existingCartItem[0].length > 0) {
             // If the product exists, update the quantity by incrementing it
             await connection.execute(
                 'UPDATE cart SET quantity = quantity + 1 WHERE customerID = ? AND ProductID = ?',

@@ -68,12 +68,12 @@
             // Define the data to be sent in JSON format
             var data = JSON.stringify({ productId: productId });
 
-            console.log(data)
             // Define the callback function to handle the response
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     console.log("Product added to cart successfully!");
                 } else {
+                    window.location.href = "/login" 
                     console.error("Failed to add product to cart:", xhr.statusText);
                 }
             };
