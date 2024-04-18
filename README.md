@@ -13,4 +13,4 @@ DB_PASSWORD="yoursql password"
 DB_DATABASE=pets
 ```
 
-Once everything is setup run node index.js to start
+Once everything is setup run ```node index.js``` to start
