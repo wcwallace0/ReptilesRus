@@ -15,8 +15,8 @@ router.get('/cart', getUserCart);
 
 router.get('/checkout', checkout);
 
-router.post("/addToCart",addToCart )
+router.post("/addToCart",addToCart);
 
-router.post("/updateCart", updateCart)
+router.post("/updateCart", updateCart);
 
 module.exports = router;

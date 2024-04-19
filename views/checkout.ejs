@@ -20,11 +20,8 @@
 <% cart.forEach(i => { %>
     <div class="productInfo">
         <span><%=i.ProdName%></span>
-        <button> - </button>
         <span><%=i.quantity%></span>
-        <button> + </button>
         <span><%=i.ProdPrice.toFixed(2)%></span>
-        <button>Remove</button>
     </div>
 <% }) %>
 <% } catch (error) { %>
