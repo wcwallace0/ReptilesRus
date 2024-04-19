@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieSession = require('cookie-session');
 const router = express.Router();
-const {getUserCart, addToCart} = require('../controllers/cartController');
+const {getUserCart, addToCart, updateCart} = require('../controllers/cartController');
 
 router.use(cookieSession({
     name: 'session',
@@ -18,5 +18,7 @@ router.get('/checkout', (req, res) => {
 });
 
 router.post("/addToCart",addToCart )
+
+router.post("/updateCart", updateCart)
 
 module.exports = router;

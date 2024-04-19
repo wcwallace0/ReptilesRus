@@ -58,8 +58,24 @@ async function addToCart(req,res){
     }
 }
 
+async function updateCart(req, res){
+    if(!req.session.isPopulated){
+        res.status(201).send("Not logged in")
+        return
+    }
+    const {itemId, quantity} = req.body
+    const {secret} = req.session
+    try{
+        await cartModel.changeQuant(secret,itemId,quantity)
+    }catch (error){
+        console.error('Error querying database:', error);
+        res.status(500).send('Internal Server Error')
+    }
+}
+
 module.exports = {
     getUserCart,
     checkout,
-    addToCart
+    addToCart,
+    updateCart
 };
