@@ -18,13 +18,12 @@
 <br><br><br>
 <% try { %>
 <% cart.forEach(i => { %>
-    <%console.log(i)%>
     <div class="productInfo">
         <span><%=i.ProdName%></span>
         <button> - </button>
-        <span><%i.quantity%></span>
+        <span><%=i.quantity%></span>
         <button> + </button>
-        <span><%i.ProdPrice%></span>
+        <span><%=i.ProdPrice.toFixed(2)%></span>
         <button>Remove</button>
     </div>
 <% }) %>

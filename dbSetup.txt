@@ -22,7 +22,7 @@ insert into customer (CustomerID, passwd, PaymentInfo) values ('ddokupil@trinity
 create table product (
     ProductID serial primary key,
     PictureID int,
-    ProdPrice float not null,
+    ProdPrice float(5, 2) not null,
     ProdDesc varchar(255),
     ProdLoc int,
     ProdName varchar(100) not null,
@@ -31,7 +31,7 @@ create table product (
 );
 
 insert into product (ProdPrice, ProdDesc, ProdName, ProdQuantity, ProdCategory) values (
-    199.99, 
+    199.99,
     "A terrarium is a see through glass container that is a must for anyone seeking to keep a reptile as a pet. Preparing one to serve as a home for your reptilian pet is crucial. These come in a variety of sizes as well. Plants and soil sold separately!",
     "Terrarium", 5, "General"
 );
@@ -40,7 +40,7 @@ insert into product (ProdPrice, ProdDesc, ProdName, ProdQuantity, ProdCategory) 
     19.99,
     "Similar to objects one would use to decorate a fish aquarium. Toys and such for your pet to interact with or otherwise to simply spruce up the place.",
     "Terrarium Decoration Pieces",
-    20, 
+    20,
     "General"
 );
 
@@ -70,21 +70,21 @@ create table orders (
     orderID serial primary key,
     orderTime char(5) not null,
     orderDate char(10) not null,
-    orderAmount float not null
+    orderAmount float(5, 2) not null
 );
 
 create table orderProduct (
     orderID bigint unsigned not null,
     productID bigint unsigned not null,
     primary key (OrderID, ProductID),
-    foreign key (orderID) references orders(orderID), 
+    foreign key (orderID) references orders(orderID),
     foreign key (productID) references product(productID)
 );
 
 create table CustomerOrder (
     CustomerID varchar(150) not null,
     OrderID bigint unsigned not null,
-    foreign key (CustomerID) references customer(CustomerID), 
+    foreign key (CustomerID) references customer(CustomerID),
     foreign key (orderID) references orders(orderID),
     primary key (CustomerID, orderID)
 );
