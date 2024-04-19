@@ -4,19 +4,79 @@
 <head>
     <meta charset="utf-8">
     <title>Cart | Reptiles "r" Us</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <% cart.forEach(i => { %>
-        <div>
-            <p><%=i.ProdName%></p>
-            <ul>
-                <li><%=i.quantity%></li>
-                <li><%=i.ProdPrice%></li>
-            </ul>
-        </div>
-    <% }) %>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <% cart.forEach((item,index) => { %>
+            <div class="bg-white rounded-lg shadow-md mb-4 p-4">
+                <p class="text-xl font-semibold"><%= index+1 %>. <%= item.ProdName %></p>
+                <ul class="mt-2">
+                    <li class="text-gray-700">Quantity: 
+                        <button class="px-2 py-1 border border-gray-300 rounded-md mr-2" onclick="decreaseQuantity(<%=item.ProductID%>)">-</button>
+                        <input type="number" value="<%= item.quantity %>" class="w-16 text-center" id="<%= item.ProductID %>" onchange="updateQuantity(<%=item.ProductID%>)">
+                        <button class="px-2 py-1 border border-gray-300 rounded-md ml-2" onclick="increaseQuantity(<%=item.ProductID%>)">+</button>
+                    </li>
+                    <li class="text-gray-700">Price: $<%= item.ProdPrice.toFixed(2) %></li>
+                </ul>
+            </div>
+        <% }) %>
+    </div>
 
+    <script>
+        function increaseQuantity(prodID) {
+            const inputElement = document.getElementById(prodID);
+            let quant = parseInt(inputElement.value);
+            quant++;
+            inputElement.value = quant;
+            updateBackend(itemId,quant)
+        }
+
+        function decreaseQuantity(prodID) {
+            const inputElement = document.getElementById(prodID);
+            let quant = parseInt(inputElement.value);
+            if (quant > 1) {
+                quant--;
+                inputElement.value = quant;
+                // You may want to update the quantity in the backend as well
+            }
+            updateBackend(prodID,quant)
+        }
+
+        function updateQuantity(prodID, quant){
+            const inputElement = document.getElementById(prodID);
+            let quantity = parseInt(inputElement.value);
+            updateBackend(prodID, quantity)
+        }
+
+        function updateBackend(itemId, quantity){
+            var xhr = new XMLHttpRequest();
+            
+            // Define the request method and URL
+            xhr.open("POST", "/updateCart", true);
+
+            // Set the request header
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+
+            // Define the data to be sent in JSON format
+            var data = JSON.stringify({ itemId: itemId, quantity: quantity });
+
+            // Define the callback function to handle the response
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log("Cart updated");
+                } else {
+                    console.error("Failed to add product to cart:", xhr.statusText);
+                }
+            };
+
+            // Send the request with the data
+            xhr.send(data);
+        }
+    </script>
 </body>
 
 </html>

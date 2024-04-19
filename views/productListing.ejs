@@ -1,0 +1,86 @@
+<!-- productListing.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+<body class="bg-gray-100">
+    <header class="flex justify-between items-center py-4 px-8 bg-gray-100">
+        <!-- Logo -->
+        <p class="logo">Reptiles "r" Us</p>
+        
+        <!-- Navigation -->
+        <table class="navBar">
+            <thead>
+                <th class="hover:bg-gray-100" onclick="console.log('clicked about')">About</th>
+                <th class="hover:bg-gray-100" onclick="console.log('clicked our services')">Our Services</th>
+                <th class="hover:bg-gray-100" onclick="console.log('clicked contact')">Contact Us</th>
+            </thead>
+        </table>
+
+        <!-- Cart button -->
+        <form action="/cart" method="GET">
+            <button type="submit" class="hidden"></button> <!-- Hidden button for accessibility -->
+            <a href="/cart" class="cart-icon text-gray-700 hover:text-gray-900">
+                <i class="fas fa-shopping-cart text-xl"></i> <!-- Font Awesome cart icon -->
+            </a>
+        </form>
+    </header>
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold mb-8">Product Listing</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <% products.forEach(product => { %>
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <a href="/product/<%= product.ProductID %>" class="hover:no-underline">
+                        <h2 class="text-xl font-semibold mb-4"><%= product.ProdName %></h2>
+                        <p class="text-gray-700 mb-4"><%= product.ProdDesc %></p>
+                        <p class="text-gray-800 font-bold">Price: $<%= product.ProdPrice.toFixed(2) %></p>
+                    </a>
+                    <!-- Add Button -->
+                    <button onclick="addToCartFunction('<%= product.ProductID %>')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        Add
+                    </button>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    <script>
+        function addToCartFunction(productId) {
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+    
+            // Define the request method and URL
+            xhr.open("POST", "/addToCart", true);
+    
+            // Set the request header
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+    
+            // Define the data to be sent in JSON format
+            var data = JSON.stringify({ productId: productId });
+
+            // Define the callback function to handle the response
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log("Product added to cart successfully!");
+                } else {
+                    window.location.href = "/login" 
+                    console.error("Failed to add product to cart:", xhr.statusText);
+                }
+            };
+    
+            // Send the request with the data
+            xhr.send(data);
+        }
+    </script>
+</body>
+</html>

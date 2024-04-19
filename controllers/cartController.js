@@ -9,17 +9,23 @@ const cartModel = require('../models/cartModel');
 // }));
 
 async function getUserCart(req, res) {
-    const session = req.session;
+    if(!req.session.isPopulated){
+        res.redirect('/login')
+        return
+    }
+   cart = await cartModel.getCart(req.session.secret);
     try {
-        const cart = await cartModel.getCart(session['secret']);
-        // Successful login, redirect to a dashboard or profile page
-        console.log("cart controller true");
-        console.log(cart);
-        res.render('cart', {cart});
+        if (cart) {
+            // Successful login, redirect to a dashboard or profile page
+            res.render('cart', {cart});
+        } else {
+            // Username or password is incorrect, redirect back to the login page
+            res.send('no cart');
+        }
     } catch (error) {
         // Username or password is incorrect, redirect back to the login page
         console.log(error);
-        res.send('no cart');
+        res.status(500).send("Internal server error")
     }
 }
 
@@ -27,7 +33,6 @@ async function checkout(req, res){
     const session = req.session;
     try {
         const cart = await cartModel.getCart(session['secret']);
-        console.log(cart);
         res.render('checkout', {cart});
     } catch(error){
         console.log(error);
@@ -35,6 +40,39 @@ async function checkout(req, res){
     }
 }
 
+async function addToCart(req,res){
+    if(!req.session.isPopulated){
+        res.status(201).send("Not logged in")
+        return
+    }
+    const {productId} = req.body
+    const {secret} = req.session
+    try{
+        await cartModel.addToCart(secret,productId)
+    }catch (error){
+        console.error('Error querying database:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+async function updateCart(req, res){
+    if(!req.session.isPopulated){
+        res.status(201).send("Not logged in")
+        return
+    }
+    const {itemId, quantity} = req.body
+    const {secret} = req.session
+    try{
+        await cartModel.changeQuant(secret,itemId,quantity)
+    }catch (error){
+        console.error('Error querying database:', error);
+        res.status(500).send('Internal Server Error')
+    }
+}
+
 module.exports = {
-    getUserCart, checkout
+    getUserCart,
+    checkout,
+    addToCart,
+    updateCart
 };

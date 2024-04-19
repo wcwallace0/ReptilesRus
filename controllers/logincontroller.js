@@ -1,5 +1,4 @@
 const userModel = require('../models/userModel');
-const cookieSession = require('cookie-session');
 
 async function login(req, res) {
     const { username, password } = req.body;

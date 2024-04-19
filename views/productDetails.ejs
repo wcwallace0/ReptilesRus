@@ -1,0 +1,16 @@
+<!-- productDetail.ejs -->
+<head>
+    <title>Produce Detail</title>
+</head>
+<Body>
+    <div class="container mx-auto py-8">
+        <div class="max-w-4xl mx-auto bg-white shadow-md p-8 rounded-lg">
+            <h1 class="text-3xl font-bold mb-4"><%= product.ProdName %></h1>
+            <div class="flex items-center justify-center mb-4">
+                <img src="/images/<%= product.PictureID %>.jpg" alt="<%= product.ProdName %>" class="w-64 h-64 object-contain">
+            </div>
+            <p class="text-gray-700 mb-4"><%= product.ProdDesc %></p>
+            <p class="text-gray-800 font-bold">Price: $<%= product.ProdPrice.toFixed(2) %></p>
+        </div>
+    </div>
+</Body>
