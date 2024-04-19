@@ -13,9 +13,7 @@ router.use(cookieSession({
 
 router.get('/cart', getUserCart);
 
-router.get('/checkout', (req, res) => {
-    res.render('checkout');
-});
+router.get('/checkout', checkout);
 
 router.post("/addToCart",addToCart )
 

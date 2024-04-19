@@ -12,7 +12,7 @@ async function getUserCart(req, res) {
     if(!req.session.isPopulated){
         res.redirect('/login')
         return
-}
+    }
    cart = await cartModel.getCart(req.session.secret);
     try {
         if (cart) {
@@ -23,23 +23,20 @@ async function getUserCart(req, res) {
             res.send('no cart');
         }
     } catch (error) {
-        // Handle database query errors
-        console.error('Error querying database:', error);
-        res.status(500).send('Internal Server Error');
+        // Username or password is incorrect, redirect back to the login page
+        console.log(error);
+        res.status(500).send("Internal server error")
     }
 }
 
 async function checkout(req, res){
-    const session = req.body.session;
-    if (session.isPopulated){
+    const session = req.session;
+    try {
         const cart = await cartModel.getCart(session['secret']);
         res.render('checkout', {cart});
-    }
-    try {
-
     } catch(error){
-        console.error('Error querying database', error);
-        res.status(500).send('Internal Server Error');
+        console.log(error);
+        res.render('checkout', {});
     }
 }
 

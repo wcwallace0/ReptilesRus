@@ -21,13 +21,13 @@
     <div class="productInfo">
         <span><%=i.ProdName%></span>
         <button> - </button>
-        <span><%i.quantity%></span>
-        <span><%i.ProdPrice%></span>
+        <span><%=i.quantity%></span>
+        <button> + </button>
+        <span><%=i.ProdPrice.toFixed(2)%></span>
         <button>Remove</button>
     </div>
 <% }) %>
 <% } catch (error) { %>
-    <% console.log(error) %>
     <div>There are no items in your cart</div>
     <% } %>
 
