@@ -1,59 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reptiles "r" Us | Home</title>
-    <!-- Include Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Include Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Additional styles can be added here if needed */
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333; /* Default text color */
-        }
-
-        .navBar th {
-            cursor: pointer;
-            padding: 8px 16px;
-            border: 1px solid #ccc; /* Default border color */
-            background-color: #f8f8f8; /* Default background color */
-        }
-
-        button {
-            padding: 8px 16px;
-            background-color: #333; /* Default button background color */
-            color: #fff; /* Default button text color */
-            border: none;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body> 
-    <!-- Header with logo, navigation, and cart button -->
-    <header class="flex justify-between items-center py-4 px-8 bg-gray-100">
-        <!-- Logo -->
-        <p class="logo">Reptiles "r" Us</p>
-        
-        <!-- Navigation -->
-        <table class="navBar">
-            <thead>
-                <th class="hover:bg-gray-100" onclick="console.log('clicked about')">About</th>
-                <th class="hover:bg-gray-100" onclick="console.log('clicked our services')">Our Services</th>
-                <th class="hover:bg-gray-100" onclick="console.log('clicked contact')">Contact Us</th>
-            </thead>
-        </table>
-
-        <!-- Cart button -->
-        <form action="/cart" method="GET">
-            <button type="submit" class="hidden"></button> <!-- Hidden button for accessibility -->
-            <a href="/cart" class="cart-icon text-gray-700 hover:text-gray-900">
-                <i class="fas fa-shopping-cart text-xl"></i> <!-- Font Awesome cart icon -->
-            </a>
-        </form>
-    </header>
-
+<%- include('navBarHead') %>
+<title>Reptiles "r" Us | Home</title>
     <!-- Main content -->
     <form action="/login" method="GET">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
@@ -67,5 +13,5 @@
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
     </form>
 
-</body> 
+</body>
 </html>

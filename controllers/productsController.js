@@ -21,6 +21,7 @@ async function productDetail(req,res){
 
         // Render a view with the product details
         res.render('productDetails', { product });
+        console.log(product.pictureID);
     } catch (error) {
         // Handle errors
         console.error('Error fetching product details:', error);
