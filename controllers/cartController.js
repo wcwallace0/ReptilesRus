@@ -86,7 +86,7 @@ async function pay(req, res){
             // Remove corresponding items from product stock
         // if not
             // return an error message
-        res.send("paid");
+        res.redirect("cart");
     }catch (error){
         console.error('Error querying database:', error);
         if (error.contains("Product not in stock")){
