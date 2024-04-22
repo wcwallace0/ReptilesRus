@@ -28,7 +28,48 @@ async function findById(id){
     }
 }
 
+async function dropPurchased(cart){
+    try {
+        const connection = await pool.getConnection();
+        let currentProductsSql = 'select ProductID, ProdQuantity from product where productID in ';
+
+        let idString = '(';
+        for (item of cart){
+            idString += (item.ProductID - 0);
+            if (cart[cart.length - 1] !== item){
+                idString += ",";
+            }
+        }
+        idString += ")";
+        currentProductsSql += idString;
+        let [currentProducts, _] = await connection.execute(currentProductsSql);
+        const newQuantitySql = 'update product set prodQuantity = ? where productID = ?';
+        for (shelfItem of currentProducts){
+            for (cartItem of cart){
+                if(shelfItem.ProductID === cartItem.ProductID){
+                    if (shelfItem.ProdQuantity - cartItem.quantity < 0){
+                        throw "Product not in stock";
+                    }
+                }
+            }
+        }
+        for (shelfItem of currentProducts){
+            for (cartItem of cart){
+                if(shelfItem.ProductID === cartItem.ProductID){
+                    await connection.execute(newQuantitySql, [shelfItem.ProdQuantity - cartItem.quantity, cartItem.ProductID]);
+                }
+            }
+        }
+    } catch (error) {
+        // Handle errors
+        console.error('Error dropping purchased items:', error);
+        throw error;
+    }
+}
+
+
 module.exports = {
     getProducts,
-    findById
+    findById,
+    dropPurchased
 }
