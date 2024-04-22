@@ -1,4 +1,5 @@
 const cartModel = require('../models/cartModel');
+const {dropPurchased} = require("../models/productModel");
 // const cookieSession = require('cookie-session');
 
 // router.use(cookieSession({
@@ -57,16 +58,42 @@ async function addToCart(req,res){
 
 async function updateCart(req, res){
     if(!req.session.isPopulated){
-        res.status(201).send("Not logged in")
+        res.status(201).send("Not logged in");
         return
     }
-    const {itemId, quantity} = req.body
-    const {secret} = req.session
+    const {itemId, quantity} = req.body;
+    const {secret} = req.session;
     try{
-        await cartModel.changeQuant(secret,itemId,quantity)
+        await cartModel.changeQuant(secret,itemId,quantity);
     }catch (error){
         console.error('Error querying database:', error);
-        res.status(500).send('Internal Server Error')
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+async function pay(req, res){
+    if(!req.session.isPopulated){
+        res.status(201).send("Not logged in");
+    }
+    const {secret} = req.session;
+    try{
+        const cart = await cartModel.getCart(secret);
+        if (cart){
+            dropPurchased(cart);
+            cartModel.emptyCart(secret);
+        }
+            // remove all items from cart
+            // Remove corresponding items from product stock
+        // if not
+            // return an error message
+        res.send("paid");
+    }catch (error){
+        console.error('Error querying database:', error);
+        if (error.contains("Product not in stock")){
+            res.status(404).send("Error 404: A product is no longer in stock");
+        }else{
+            res.status(500).send('Internal Server Error');
+        }
     }
 }
 
@@ -74,5 +101,6 @@ module.exports = {
     getUserCart,
     checkout,
     addToCart,
-    updateCart
+    updateCart,
+    pay
 };
