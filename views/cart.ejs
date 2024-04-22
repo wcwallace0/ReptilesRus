@@ -19,7 +19,11 @@
     </div>
 
     <form action="/pay" method="POST">
+        <% if (cart.length > 0) { %>
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pay</button>
+        <% } else { %>
+        <button type="button" class="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed" disabled>Pay</button>
+        <% } %>
     </form>
 
     <script>
