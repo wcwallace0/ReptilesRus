@@ -78,7 +78,8 @@ async function pay(req, res){
     const {secret} = req.session;
     try{
         const cart = await cartModel.getCart(secret);
-        if (cart){
+        console.log(cart);
+        if (cart === undefined && cart.length !== 0){
             dropPurchased(cart);
             cartModel.emptyCart(secret);
         }

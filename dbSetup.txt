@@ -21,7 +21,7 @@ insert into customer (CustomerID, passwd, PaymentInfo) values ('ddokupil@trinity
 
 create table product (
     ProductID serial primary key,
-    PictureID int,
+    PictureID varchar(150),
     ProdPrice float(5, 2) not null,
     ProdDesc varchar(255),
     ProdLoc int,
