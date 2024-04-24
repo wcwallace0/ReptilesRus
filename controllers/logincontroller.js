@@ -22,11 +22,12 @@ async function login(req, res) {
 
 
 async function createUser(req, res){
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
     try {
         // Insert user information into the database
-        await userModel.createUser(username, email, password);
-        res.send('User created successfully');
+        await userModel.createUser(username, password);
+        req.session = {name: 'session', secret: username, maxAge: 10 * 60 * 1000, secure: false};
+        res.redirect('/');
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).send('Internal Server Error');

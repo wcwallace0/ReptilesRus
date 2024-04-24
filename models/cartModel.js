@@ -39,7 +39,7 @@ async function addToCart(customer, id) {
                 [customer, id]
             );
         }
-        
+
         // Release the connection
         connection.release();
     } catch (error) {
@@ -71,7 +71,7 @@ async function changeQuant(customer, id, quantity) {
                 [customer, id, quantity]
             );
         }
-        
+
         // Release the connection
         connection.release();
     } catch (error) {
@@ -80,8 +80,22 @@ async function changeQuant(customer, id, quantity) {
     }
 }
 
+async function emptyCart(customer){
+    try {
+        const connection = await pool.getConnection();
+        const sql = 'delete from cart where CustomerID = ?';
+        await connection.execute(sql, [customer]);
+    } catch (e){
+        console.error("error emptying cart: ", e);
+        throw e;
+    }
+}
+
+
+
 module.exports = {
     getCart,
     addToCart,
-    changeQuant
+    changeQuant,
+    emptyCart
 };

@@ -21,7 +21,7 @@ insert into customer (CustomerID, passwd, PaymentInfo) values ('ddokupil@trinity
 
 create table product (
     ProductID serial primary key,
-    PictureID int,
+    PictureID varchar(150),
     ProdPrice float(5, 2) not null,
     ProdDesc varchar(255),
     ProdLoc int,
@@ -30,18 +30,19 @@ create table product (
     ProdCategory varchar(10)
 );
 
-insert into product (ProdPrice, ProdDesc, ProdName, ProdQuantity, ProdCategory) values (
+insert into product (ProdPrice, ProdDesc, ProdName, ProdQuantity, ProdCategory, PictureID) values (
     199.99,
     "A terrarium is a see through glass container that is a must for anyone seeking to keep a reptile as a pet. Preparing one to serve as a home for your reptilian pet is crucial. These come in a variety of sizes as well. Plants and soil sold separately!",
-    "Terrarium", 5, "General"
+    "Terrarium", 5, "General", "https://s7d2.scene7.com/is/image/PetSmart/5300502?$CLEARjpg$"
 );
 
-insert into product (ProdPrice, ProdDesc, ProdName, ProdQuantity, ProdCategory) values (
+insert into product (ProdPrice, ProdDesc, ProdName, ProdQuantity, ProdCategory, PictureID) values (
     19.99,
     "Similar to objects one would use to decorate a fish aquarium. Toys and such for your pet to interact with or otherwise to simply spruce up the place.",
     "Terrarium Decoration Pieces",
     20,
-    "General"
+    "General",
+    "https://s7d2.scene7.com/is/image/PetSmart/5339861?$CLEARjpg$"
 );
 
 

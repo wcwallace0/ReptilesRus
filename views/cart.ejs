@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html>
+<%-include('navBarHead')%>
+<title>Cart | Reptiles "r" Us</title>
 
-<head>
-    <meta charset="utf-8">
-    <title>Cart | Reptiles "r" Us</title>
-    <!-- Include Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-
-<body class="bg-gray-100 p-8">
+<!-- <body class="bg-gray-100 p-8"> -->
     <div class="max-w-4xl mx-auto">
         <% cart.forEach((item,index) => { %>
             <div class="bg-white rounded-lg shadow-md mb-4 p-4">
                 <p class="text-xl font-semibold"><%= index+1 %>. <%= item.ProdName %></p>
                 <ul class="mt-2">
-                    <li class="text-gray-700">Quantity: 
+                    <li class="text-gray-700">Quantity:
                         <button class="px-2 py-1 border border-gray-300 rounded-md mr-2" onclick="decreaseQuantity(<%=item.ProductID%>)">-</button>
                         <input type="number" value="<%= item.quantity %>" class="w-16 text-center" id="<%= item.ProductID %>" onchange="updateQuantity(<%=item.ProductID%>)">
                         <button class="px-2 py-1 border border-gray-300 rounded-md ml-2" onclick="increaseQuantity(<%=item.ProductID%>)">+</button>
@@ -24,6 +17,17 @@
             </div>
         <% }) %>
     </div>
+
+    <form action="/pay" method="POST">
+        <% if (cart.length > 0) { %>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pay</button>
+        <% } else { %>
+        <br><br>
+        <p>There are no items in your cart.</p>
+        <br><br>
+        <button type="button" class="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed" disabled>Pay</button>
+        <% } %>
+    </form>
 
     <script>
         function increaseQuantity(prodID) {
@@ -53,7 +57,7 @@
 
         function updateBackend(itemId, quantity){
             var xhr = new XMLHttpRequest();
-            
+
             // Define the request method and URL
             xhr.open("POST", "/updateCart", true);
 

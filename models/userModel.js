@@ -10,7 +10,7 @@ async function getUserByUsernameAndPassword(username, password) {
 }
 
 
-async function createUser(username, email, password) {
+async function createUser(username, password) {
     try {
         const connection = await pool.getConnection();
         const sql = 'INSERT INTO customer (customerID, passwd, paymentinfo) VALUES (?, ?, 0)';
