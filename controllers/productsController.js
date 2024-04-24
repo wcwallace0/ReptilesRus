@@ -54,10 +54,18 @@ async function updateProduct(req, res){
     }
 }
 
+async function addProduct(req, res){
+    console.log(req.session.secret)
+    if(!req.session.isPopulated && req.session.secret === "admin"){
+        res.render("addProduct");
+    }
+}
+
 
 module.exports = {
     loadProducts,
     productDetail,
     editProduct,
-    updateProduct
+    updateProduct,
+    addProduct
 }

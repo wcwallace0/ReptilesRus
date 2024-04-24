@@ -44,7 +44,7 @@ async function createUser(req, res){
 async function adminLogin(req, res){
     if(req.session.isPopulated && req.session.secret === "admin"){
         try {
-            const products = await productModel.getProducts();
+            const products = await productModel.getProducts(true);
             res.render('admin', { products})
         } catch (error) {
             // Handle database query errors

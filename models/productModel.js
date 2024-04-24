@@ -1,12 +1,18 @@
 const pool = require('../database/DB');
 
-async function getProducts(){
+async function getProducts(cond){
     try {
         // Query to retrieve all products
-        const [rows, _] = await pool.query('SELECT * FROM product WHERE ProdQuantity > 0');
-
+        if (cond){
+            const [rows, _] = await pool.query('SELECT * FROM product');
+            return rows;
+        }else{
+            const [rows, _] = await pool.query('SELECT * FROM product WHERE ProdQuantity > 0');
+            return rows;
+        }
+        
         // Return the retrieved products
-        return rows;
+
     } catch (error) {
         // Handle errors
         console.error('Error retrieving products:', error);
