@@ -85,6 +85,7 @@ async function emptyCart(customer){
         const connection = await pool.getConnection();
         const sql = 'delete from cart where CustomerID = ?';
         await connection.execute(sql, [customer]);
+        console.log('cart empty');
     } catch (e){
         console.error("error emptying cart: ", e);
         throw e;

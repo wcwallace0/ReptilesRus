@@ -48,7 +48,7 @@ async function dropPurchased(cart){
             for (cartItem of cart){
                 if(shelfItem.ProductID === cartItem.ProductID){
                     if (shelfItem.ProdQuantity - cartItem.quantity < 0){
-                        throw "Product not in stock";
+                        return false;
                     }
                 }
             }
@@ -60,6 +60,7 @@ async function dropPurchased(cart){
                 }
             }
         }
+        return true;
     } catch (error) {
         // Handle errors
         console.error('Error dropping purchased items:', error);

@@ -79,14 +79,14 @@ async function pay(req, res){
     try{
         const cart = await cartModel.getCart(secret);
         console.log(cart);
-        if (cart === undefined && cart.length !== 0){
-            dropPurchased(cart);
-            cartModel.emptyCart(secret);
+        if (cart !== undefined && cart.length !== 0){
+            const purchaseResult = await dropPurchased(cart);
+            console.log(purchaseResult);
+            if (purchaseResult){
+                cartModel.emptyCart(secret);
+                console.log("paid");
+            }
         }
-            // remove all items from cart
-            // Remove corresponding items from product stock
-        // if not
-            // return an error message
         res.redirect("cart");
     }catch (error){
         console.error('Error querying database:', error);
