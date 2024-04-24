@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieSession = require('cookie-session');
 const router = express.Router();
-const { login, createUser} = require('../controllers/logincontroller');
+const { login, createUser, adminLogin} = require('../controllers/logincontroller');
 
 router.use(cookieSession({
     name: 'session',
@@ -18,11 +18,17 @@ router.get('/login', (req, res) => {
     }
 });
 
+router.get('/admin', adminLogin);
+
 router.post('/login', login);
 
 router.get('/logout', (req, res) => {
     req.session = null;
     res.send("You've been logged out. <a href=login>Log in again</a>");
+});
+
+router.get('/create-user', (req, res) => {
+    res.render('create-user');
 });
 
 router.post('/submit', createUser);

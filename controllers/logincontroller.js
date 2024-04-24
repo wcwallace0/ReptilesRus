@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const productModel = require('../models/productModel')
 
 async function login(req, res) {
     const { username, password } = req.body;
@@ -10,8 +11,14 @@ async function login(req, res) {
             req.session = {name: 'session', secret: username, maxAge: 10 * 60 * 1000, secure: false};
             res.redirect('/');
         } else {
-            // Username or password is incorrect, redirect back to the login page
-            res.redirect('/login');
+            // Try admin login
+            const admin = await userModel.getAdmin(username, password);
+            if(admin){
+                req.session = {name: 'session', secret: username, maxAge: 10 * 60 * 1000, secure: false};
+                res.redirect('/admin') 
+            }else{
+                res.redirect('/login');
+            }
         }
     } catch (error) {
         // Handle database query errors
@@ -34,7 +41,23 @@ async function createUser(req, res){
     }
 };
 
+async function adminLogin(req, res){
+    if(req.session.isPopulated && req.session.secret === "admin"){
+        try {
+            const products = await productModel.getProducts();
+            res.render('admin', { products})
+        } catch (error) {
+            // Handle database query errors
+            console.error('Error querying database:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    }else{
+        res.redirect('/login')
+    }
+}
+
 module.exports = {
     login,
-    createUser
+    createUser,
+    adminLogin
 };

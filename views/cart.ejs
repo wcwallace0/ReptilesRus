@@ -4,16 +4,17 @@
 <!-- <body class="bg-gray-100 p-8"> -->
     <div class="max-w-4xl mx-auto">
         <% cart.forEach((item,index) => { %>
-            <div class="bg-white rounded-lg shadow-md mb-4 p-4">
+            <div id="product<%= item.ProductID %>" class="bg-white rounded-lg shadow-md mb-4 p-4">
                 <p class="text-xl font-semibold"><%= index+1 %>. <%= item.ProdName %></p>
                 <ul class="mt-2">
                     <li class="text-gray-700">Quantity:
                         <button class="px-2 py-1 border border-gray-300 rounded-md mr-2" onclick="decreaseQuantity(<%=item.ProductID%>)">-</button>
-                        <input type="number" value="<%= item.quantity %>" class="w-16 text-center" id="<%= item.ProductID %>" onchange="updateQuantity(<%=item.ProductID%>)">
+                        <input type="number" value="<%= Math.max(item.quantity, 0) %>" min="0" class="w-16 text-center" id="<%= item.ProductID %>" onchange="updateQuantity(<%=item.ProductID%>)">
                         <button class="px-2 py-1 border border-gray-300 rounded-md ml-2" onclick="increaseQuantity(<%=item.ProductID%>)">+</button>
                     </li>
                     <li class="text-gray-700">Price: $<%= item.ProdPrice.toFixed(2) %></li>
                 </ul>
+                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4" onclick="removeFromCart(<%=item.ProductID%>)">Remove</button>
             </div>
         <% }) %>
     </div>
@@ -52,9 +53,19 @@
         function updateQuantity(prodID, quant){
             const inputElement = document.getElementById(prodID);
             let quantity = parseInt(inputElement.value);
+            if(quantity <= 0){
+                inputElement.value = 0;
+            }
             updateBackend(prodID, quantity)
         }
 
+        function removeFromCart(prodId){
+            const productDiv = document.getElementById('product' + prodId);
+
+            // Hide the div by setting its display property to 'none'
+            productDiv.style.display = 'none';
+            updateBackend(prodId, 0)
+        }
         function updateBackend(itemId, quantity){
             var xhr = new XMLHttpRequest();
 
@@ -72,6 +83,7 @@
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     console.log("Cart updated");
+                    location.reload();
                 } else {
                     console.error("Failed to add product to cart:", xhr.statusText);
                 }

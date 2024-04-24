@@ -9,6 +9,14 @@ async function getUserByUsernameAndPassword(username, password) {
     }
 }
 
+async function getAdmin(username, password) {
+    try {
+        const [rows] = await pool.query('SELECT * FROM admin WHERE adminEmail = ? AND adminPassword = ?', [username, password]);
+        return rows.length > 0 ? rows[0] : null;
+    } catch (error) {
+        throw error;
+    }
+}
 
 async function createUser(username, password) {
     try {
@@ -31,5 +39,6 @@ async function createUser(username, password) {
 
 module.exports = {
     getUserByUsernameAndPassword,
-    createUser
+    createUser,
+    getAdmin
 };

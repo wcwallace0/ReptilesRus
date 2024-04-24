@@ -67,9 +67,24 @@ async function dropPurchased(cart){
     }
 }
 
+async function updateProduct(ProductID, prodName, prodDesc, prodPrice, prodQuanity){
+    const sql = 'UPDATE product SET ProdName = ?, ProdDesc = ?, ProdPrice = ?, ProdQuantity = ? WHERE ProductID = ?';
+    values = [prodName, prodDesc, prodPrice, prodQuanity, ProductID]
+    try{
+        const connection = await pool.getConnection()
+        const [rows, _] = await connection.execute(sql, values)
+        connection.release()
+        return rows
+    }catch(error){
+        console.error('Error updating product:', error);
+        throw error;
+    }
+}
+
 
 module.exports = {
     getProducts,
     findById,
-    dropPurchased
+    dropPurchased,
+    updateProduct
 }
