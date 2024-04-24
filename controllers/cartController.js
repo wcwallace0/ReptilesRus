@@ -101,10 +101,25 @@ async function pay(req, res){
     }
 }
 
+async function emptyCart(req, res){
+    if(!req.session.isPopulated){
+        res.status(201).send("Not logged in");
+    }
+    const {secret} = req.session;
+    try{
+        await cartModel.emptyCart(secret)
+        res.redirect("cart");
+    }catch (error){
+        console.error('Error querying database:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 module.exports = {
     getUserCart,
     checkout,
     addToCart,
     updateCart,
-    pay
+    pay,
+    emptyCart
 };

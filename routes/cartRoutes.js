@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieSession = require('cookie-session');
 const router = express.Router();
-const {getUserCart, addToCart, updateCart, checkout, pay} = require('../controllers/cartController');
+const {getUserCart, addToCart, updateCart, checkout, pay, emptyCart} = require('../controllers/cartController');
 
 router.use(cookieSession({
     name: 'session',
@@ -14,6 +14,8 @@ router.use(cookieSession({
 router.get('/cart', getUserCart);
 
 router.get('/checkout', checkout);
+
+router.get('/emptyCart', emptyCart);
 
 router.post("/addToCart",addToCart);
 

@@ -17,6 +17,11 @@
                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4" onclick="removeFromCart(<%=item.ProductID%>)">Remove</button>
             </div>
         <% }) %>
+        <a href="/emptyCart">
+            <button type="submit"  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Empty Cart</button>
+        </a>
+        
+    </div>
     </div>
 
     <form action="/pay" method="POST">

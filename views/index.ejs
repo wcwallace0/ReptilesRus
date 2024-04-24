@@ -10,25 +10,22 @@
             border-radius: 10px; /* Add border-radius for rounded corners */
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
         }
-        .button-container button {
-            margin-right: 10px; /* Adjust the right margin as needed */
-        }
     </style>
 </head>
 <title>Reptiles "r" Us | Home</title>
-<!-- Main content -->
-<div class="container mx-auto py-8 background-image">
-    <form action="/login" method="GET" class="button-container">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
-    </form>
-    <p>Connecting you to your reptile</p>
-    <form action="/products" method="GET" class="button-container">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start Looking</button>
-    </form>
-    <br>
-    <form action="/logout" method="GET" class="button-container">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
-    </form>
-</div>
+    <!-- Main content -->
+    <div class="container mx-auto py-8 background-image">
+        <form action="/login" method="GET">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
+        </form>
+        <p>Connecting you to your reptile</p>
+        <form action="/products" method="GET">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start Looking</button>
+        </form>
+        <br>
+        <form action="/logout" method="GET">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
+        </form>
+    </div>
 </body>
 </html>
