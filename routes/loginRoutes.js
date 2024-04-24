@@ -3,6 +3,7 @@ const cookieSession = require('cookie-session');
 const router = express.Router();
 const { login, createUser} = require('../controllers/logincontroller');
 
+// Session middleware
 router.use(cookieSession({
     name: 'session',
     secret: 'asdfghjkl;',
