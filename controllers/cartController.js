@@ -83,14 +83,14 @@ async function pay(req, res){
     try{
         const cart = await cartModel.getCart(secret);
         if (cart !== undefined && cart.length !== 0){
-            dropPurchased(cart);
-            cartModel.emptyCart(secret);
+            const purchaseResult = await dropPurchased(cart);
+            console.log(purchaseResult);
+            if (purchaseResult){
+                cartModel.emptyCart(secret);
+                console.log("paid");
+            }
         }
-            // remove all items from cart
-            // Remove corresponding items from product stock
-        // if not
-            // return an error message
-        res.redirect("/cart");
+        res.redirect("cart");
     }catch (error){
         console.error('Error querying database:', error);
         if (error.contains("Product not in stock")){

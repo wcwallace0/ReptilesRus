@@ -15,16 +15,17 @@ const indexRoutes = require('./routes/indexRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const productRoutes = require('./routes/productRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+
 
 // Use routes
 app.use('/', indexRoutes);
 app.use('/', cartRoutes);
 app.use('/', loginRoutes);
 app.use('/', productRoutes);
+app.use('/', adminRoutes);
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
