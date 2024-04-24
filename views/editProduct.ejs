@@ -1,0 +1,27 @@
+<title>Edit Product</title>
+
+<div class="container mx-auto py-8">
+    <div class="max-w-4xl mx-auto bg-white shadow-md p-8 rounded-lg">
+        <h1 class="text-3xl font-bold mb-4">Edit <%= product.ProdName %></h1>
+        <form action="/updateProduct" method="POST">
+            <input type="hidden" id="ProductID" name="ProductID" value="<%= product.ProductID %>" required> 
+            <div class="mb-4">
+                <label for="prodName" class="block text-gray-700 font-bold mb-2">Product Name</label>
+                <input type="text" id="prodName" name="prodName" value="<%= product.ProdName %>" class="w-full rounded-md border-gray-300 px-4 py-2" required>
+            </div>
+            <div class="mb-4">
+                <label for="prodDesc" class="block text-gray-700 font-bold mb-2">Description</label>
+                <textarea id="prodDesc" name="prodDesc" class="w-full rounded-md border-gray-300 px-4 py-2" required><%= product.ProdDesc %></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="prodPrice" class="block text-gray-700 font-bold mb-2">Price</label>
+                <input type="number" id="prodPrice" name="prodPrice" value="<%= product.ProdPrice.toFixed(2) %>" step="0.01" min="0" class="w-full rounded-md border-gray-300 px-4 py-2" required>
+            </div>
+            <div class="mb-4">
+                <label for="prodQuantity" class="block text-gray-700 font-bold mb-2">Quantity</label>
+                <input type="number" id="prodQuantity" name="prodQuantity" value="<%= product.ProdQuantity %>" min="0" class="w-full rounded-md border-gray-300 px-4 py-2" required>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save Changes</button>
+        </form>
+    </div>
+</div>
