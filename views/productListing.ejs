@@ -39,7 +39,13 @@
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     console.log("Product added to cart successfully!");
-                } else {
+                } else if(xhr.status ===201){
+                    const buttons = document.getElementsByClassName("bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4");
+                    buttons.array.forEach(button => {
+                        button.disabled = true;
+                        button.class="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed"
+                    });
+                }else {
                     window.location.href = "/login"
                     console.error("Failed to add product to cart:", xhr.statusText);
                 }

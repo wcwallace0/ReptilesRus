@@ -43,12 +43,16 @@ async function checkout(req, res){
 
 async function addToCart(req,res){
     if(!req.session.isPopulated){
-        res.status(201).send("Not logged in")
+        res.status(300).send("Not logged in")
         return
     }
     const {productId} = req.body
     const {secret} = req.session
     try{
+        if(secret === "admin"){
+            res.status(201).send("admin")
+            return
+        }
         await cartModel.addToCart(secret,productId)
     }catch (error){
         console.error('Error querying database:', error);
@@ -78,7 +82,6 @@ async function pay(req, res){
     const {secret} = req.session;
     try{
         const cart = await cartModel.getCart(secret);
-        console.log(cart);
         if (cart !== undefined && cart.length !== 0){
             const purchaseResult = await dropPurchased(cart);
             console.log(purchaseResult);

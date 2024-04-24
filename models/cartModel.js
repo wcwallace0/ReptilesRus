@@ -58,14 +58,20 @@ async function changeQuant(customer, id, quantity) {
             [customer, id]
         );
 
-        if (existingCartItem[0].length > 0) {
-            // If the product exists, update the quantity to the specified quantity
+        if (quantity === 0) {
+            // If the quantity is 0, delete the row from the cart table
+            await connection.execute(
+                'DELETE FROM cart WHERE customerID = ? AND ProductID = ?',
+                [customer, id]
+            );
+        } else if (existingCartItem[0].length > 0) {
+            // If the product exists and the quantity is not 0, update the quantity to the specified quantity
             await connection.execute(
                 'UPDATE cart SET quantity = ? WHERE customerID = ? AND ProductID = ?',
                 [quantity, customer, id]
             );
         } else {
-            // If the product doesn't exist, insert a new row into the cart table with the specified quantity
+            // If the product doesn't exist and the quantity is not 0, insert a new row into the cart table with the specified quantity
             await connection.execute(
                 'INSERT INTO cart (customerID, ProductID, quantity) VALUES (?, ?, ?)',
                 [customer, id, quantity]
