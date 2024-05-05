@@ -1,5 +1,11 @@
 const pool = require('../database/DB');
 
+const floatHandler = new Intl.NumberFormat('en-US');
+const moneyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+});
+
 async function getCart(username){
     try {
         const connection = await pool.getConnection();
@@ -101,11 +107,27 @@ async function emptyCart(customer){
     }
 }
 
+// Called when order is placed, finalizes order after it has been checked for validity
+// Builds and returns a string that serves as an order summary
+// Adds entries to orders and orderProduct tables in database accordingly
+async function placeOrder(cart) {
+    let orderSummary = 'Order Summary: \n';
+    let orderTotal = 0;
+    for(item of cart) {
+        const itemPrice = parseFloat(floatHandler.format(item.ProdPrice * item.quantity));
+        orderTotal = parseFloat(floatHandler.format(orderTotal + itemPrice));
+        orderSummary += item.quantity + ' x ' + item.ProdName + ": " + moneyFormatter.format(itemPrice) + '\n';
+    }
+    orderSummary += 'Order Total: ' + moneyFormatter.format(orderTotal);
+    return orderSummary;
+}
+
 
 
 module.exports = {
     getCart,
     addToCart,
     changeQuant,
-    emptyCart
+    emptyCart,
+    placeOrder
 };

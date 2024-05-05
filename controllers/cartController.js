@@ -93,7 +93,7 @@ async function pay(req, res){
                 cartModel.emptyCart(secret);
 
                 // Build order summary and add order entry to database
-                message = '';
+                message = await cartModel.placeOrder(cart);
             } else {
                 message = 'A product is no longer in stock';
             }
