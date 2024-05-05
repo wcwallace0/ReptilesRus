@@ -43,20 +43,21 @@ async function checkout(req, res){
 
 async function addToCart(req,res){
     if(!req.session.isPopulated){
-        res.status(300).send("Not logged in")
+        res.status(300).send("You must be logged in to add a product to your cart.")
         return
     }
     const {productId} = req.body
     const {secret} = req.session
-    try{
+    try {
         if(secret === "admin"){
             res.status(201).send("admin")
             return
         }
         await cartModel.addToCart(secret,productId)
-    }catch (error){
+        res.status(200).send('Product added successfully!');
+    } catch (error){
         console.error('Error querying database:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).send('Failed to add product to cart.');
     }
 }
 
@@ -67,9 +68,10 @@ async function updateCart(req, res){
     }
     const {itemId, quantity} = req.body;
     const {secret} = req.session;
-    try{
+    try {
         await cartModel.changeQuant(secret,itemId,quantity);
-    }catch (error){
+        res.status(200).send('Cart successfully updated');
+    } catch (error){
         console.error('Error querying database:', error);
         res.status(500).send('Internal Server Error');
     }
@@ -81,22 +83,31 @@ async function pay(req, res){
     }
     const {secret} = req.session;
     try{
+        let message = '';
         const cart = await cartModel.getCart(secret);
         if (cart !== undefined && cart.length !== 0){
             const purchaseResult = await dropPurchased(cart);
             console.log(purchaseResult);
             if (purchaseResult){
+                // Empty cart
                 cartModel.emptyCart(secret);
-                console.log("paid");
+
+                // Build order summary and add order entry to database
+                message = '';
+            } else {
+                message = 'A product is no longer in stock';
             }
+        } else {
+            message = 'You cannot checkout an empty cart';
         }
-        res.redirect("cart");
+        res.status(200).send(message);
+        //res.redirect("cart");
     }catch (error){
         console.error('Error querying database:', error);
-        if (error.contains("Product not in stock")){
+        if (typeof error === 'string' && error.contains("Product not in stock")){
             res.status(404).send("Error 404: A product is no longer in stock");
         }else{
-            res.status(500).send('Internal Server Error');
+            res.status(500).send('Internal Server Error', error);
         }
     }
 }

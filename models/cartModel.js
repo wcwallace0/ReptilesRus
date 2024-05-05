@@ -49,6 +49,9 @@ async function addToCart(customer, id) {
 }
 
 async function changeQuant(customer, id, quantity) {
+    // Check for bad inputs
+    if(typeof quantity !== 'number') { quantity = 0; }
+    else if(quantity < 0) { quantity = 0; }
     try {
         const connection = await pool.getConnection();
 
