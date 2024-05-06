@@ -1,5 +1,11 @@
 const pool = require('../database/DB');
 
+const floatHandler = new Intl.NumberFormat('en-US');
+const moneyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+});
+
 async function getCart(username){
     try {
         const connection = await pool.getConnection();
@@ -49,6 +55,9 @@ async function addToCart(customer, id) {
 }
 
 async function changeQuant(customer, id, quantity) {
+    // Check for bad inputs
+    if(typeof quantity !== 'number') { quantity = 0; }
+    else if(quantity < 0) { quantity = 0; }
     try {
         const connection = await pool.getConnection();
 
@@ -97,11 +106,57 @@ async function emptyCart(customer){
     }
 }
 
+// Called when order is placed, finalizes order after it has been checked for validity
+// Builds and returns a string that serves as an order summary
+// Adds entries to orders and orderProduct tables in database accordingly
+async function placeOrder(customer, cart) {
+    try {
+        const connection = await pool.getConnection();
+        let orderSummary = 'Order Summary: \n';
+        let orderTotal = 0;
+        for(item of cart) {
+            const itemPrice = parseFloat(floatHandler.format(item.ProdPrice * item.quantity));
+            orderTotal = parseFloat(floatHandler.format(orderTotal + itemPrice));
+            orderSummary += item.quantity + ' x ' + item.ProdName + ": " + moneyFormatter.format(itemPrice) + '\n';
+        }
+        orderSummary += 'Order Total: ' + moneyFormatter.format(orderTotal);
+
+        // Enter order into database
+        await connection.execute(
+            'INSERT INTO orders (orderAmount) VALUES (?)',
+            [orderTotal]
+        );
+
+        const result = await connection.execute('SELECT LAST_INSERT_ID()');
+        const orderID = result[0][0]['LAST_INSERT_ID()'];
+        console.log(orderID);
+
+        await connection.execute(
+            'INSERT INTO CustomerOrder (CustomerID, OrderID) VALUES (?, ?)',
+            [customer, orderID]
+        );
+
+        for(item of cart) {
+            await connection.execute(
+                'INSERT INTO orderProduct (orderID, productID) VALUES (?, ?)',
+                [orderID, item.ProductID]
+            );
+        }
+
+        connection.release();
+        return orderSummary;
+    } catch (e) {
+        console.error('Error placing order: ', e);
+        throw e;
+    }
+}
+
 
 
 module.exports = {
     getCart,
     addToCart,
     changeQuant,
-    emptyCart
+    emptyCart,
+    placeOrder
 };
