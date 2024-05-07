@@ -4,7 +4,7 @@
 <!-- <body class="bg-gray-100 p-8"> -->
     <div class="max-w-4xl mx-auto">
         <% cart.forEach((item,index) => { %>
-            <div id="product<%= item.ProductID %>" class="bg-white rounded-lg shadow-md mb-4 p-4">
+            <div id="product<%= item.ProductID %>" class="bg-white rounded-lg shadow-md mb-4 p-4" style="display: grid; grid-template-rows: 1fr; grid-template-columns: 1fr 1fr 1fr; justify-items: center; align-items: center;">
                 <p class="text-xl font-semibold"><%= index+1 %>. <%= item.ProdName %></p>
                 <ul class="mt-2">
                     <li class="text-gray-700">Quantity:
@@ -17,23 +17,21 @@
                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4" onclick="removeFromCart(<%=item.ProductID%>)">Remove</button>
             </div>
         <% }) %>
-        <a href="/emptyCart">
-            <button type="submit"  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Empty Cart</button>
-        </a>
-        
-    </div>
-    </div>
-
-    <form>
-        <% if (cart.length > 0) { %>
-        <button type="button" onclick="placeOrder()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pay</button>
-        <% } else { %>
-        <br><br>
-        <p>There are no items in your cart.</p>
-        <br><br>
-        <button type="button" class="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed" disabled>Pay</button>
-        <% } %>
-    </form>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px; margin-top: 16px;">
+            <a href="/emptyCart">
+                <button type="submit"  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Empty Cart</button>
+            </a>
+            <form>
+                <% if (cart.length > 0) { %>
+                <button type="button" onclick="placeOrder()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="width: 115px;">Pay</button>
+                <% } else { %>
+                <br><br>
+                <p>There are no items in your cart.</p>
+                <br><br>
+                <button type="button" class="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed" disabled style="width: 115px;">Pay</button>
+                <% } %>
+            </form>
+        </div>
 
     <script>
         function increaseQuantity(prodID) {
